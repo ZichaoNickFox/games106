@@ -16,3 +16,11 @@ if(WIN32)
  else(WIN32)
     target_link_libraries(base ${Vulkan_LIBRARY} ${XCB_LIBRARIES} ${WAYLAND_CLIENT_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT})
 endif(WIN32)
+
+if(APPLE)
+  set_source_files_properties(
+    ${CMAKE_CURRENT_SOURCE_DIR}/vulkanexamplebase.cpp
+    PROPERTIES
+      COMPILE_FLAGS "-x objective-c++ -fobjc-arc"
+  )
+endif()

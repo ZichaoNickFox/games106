@@ -40,6 +40,7 @@ function(buildExample EXAMPLE_NAME)
 	set_target_properties(${EXAMPLE_NAME} PROPERTIES VS_DEBUGGER_WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
 	if(${EXAMPLE_NAME} STREQUAL "texture3d")
 		if(APPLE)
+      add_compile_options(-fobjc-arc)
 			# SRS - Use MacPorts paths as default since the same on x86 and Apple Silicon, can override for homebrew on cmake command line
 			if(NOT OpenMP_omp_LIBRARY AND EXISTS /opt/local/lib/libomp/libomp.dylib)
 				set(OpenMP_omp_LIBRARY /opt/local/lib/libomp/libomp.dylib)

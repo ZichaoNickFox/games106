@@ -34,12 +34,22 @@ function(buildHomework HOMEWORK_NAME)
 		target_link_libraries(${HOMEWORK_NAME} base ${Vulkan_LIBRARY} ${WINLIBS})
 	else(WIN32)
 		add_executable(${HOMEWORK_NAME} ${MAIN_CPP} ${SOURCE} ${MAIN_HEADER} ${SHADERS_GLSL} ${SHADERS_HLSL} ${README_FILES})
+
+    if(APPLE)
+      set_source_files_properties(
+        ${HOMEWORK_FOLDER}/${HOMEWORK_NAME}.cpp
+        PROPERTIES
+          COMPILE_FLAGS "-x objective-c++ -fobjc-arc"
+      )
+    endif()
+
 		target_link_libraries(${HOMEWORK_NAME} base )
 	endif(WIN32)
 
 	set_target_properties(${HOMEWORK_NAME} PROPERTIES VS_DEBUGGER_WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
 	if(${HOMEWORK_NAME} STREQUAL "texture3d")
 		if(APPLE)
+      add_compile_options(-fobjc-arc)
 			# SRS - Use MacPorts paths as default since the same on x86 and Apple Silicon, can override for homebrew on cmake command line
 			if(NOT OpenMP_omp_LIBRARY AND EXISTS /opt/local/lib/libomp/libomp.dylib)
 				set(OpenMP_omp_LIBRARY /opt/local/lib/libomp/libomp.dylib)
